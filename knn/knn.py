@@ -23,4 +23,21 @@ def classify0(inX,dataSet, labels,k):
     sortedClassCount = sorted(classCount.iteritems(), key=operator.itemgetter(1), reverse=True)
     return sortedClassCount[0][0]
 
-    
+
+def file2matrix(filename):
+    emotionmapping = {"didntLike":1, "smallDoses":2, "largeDoses":3}
+    fr = open(filename)
+    arrayOlines = fr.readlines()
+    numberOfLines = len(arrayOlines)
+    returnMat = np.zeros((numberOfLines, 3))
+    classLabelVector = []
+    index = 0
+    for line in arrayOlines:
+        line = line.strip()
+        listFromLine = line.split('\t')
+        returnMat[index,:] = listFromLine[0:3]
+        classLabelVector.append(emotionmapping.get(listFromLine[-1].replace('\n', '')))
+        index = 1 + index
+    return returnMat, classLabelVector
+
+
