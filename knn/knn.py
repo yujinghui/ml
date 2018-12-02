@@ -24,6 +24,9 @@ def classify0(inX,dataSet, labels,k):
     return sortedClassCount[0][0]
 
 
+'''
+ parse txt to matrix
+'''
 def file2matrix(filename):
     emotionmapping = {"didntLike":1, "smallDoses":2, "largeDoses":3}
     fr = open(filename)
@@ -41,3 +44,8 @@ def file2matrix(filename):
     return returnMat, classLabelVector
 
 
+def autoNorm(dataSet):
+    minVals = dataSet.min(0)
+    maxVals = dataSet.max(0)
+    ranges = maxVals - minVals
+    normDataSet = np.zeros(np.shape)
