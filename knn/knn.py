@@ -65,7 +65,7 @@ def autoNorm(dataSet):
 # testing 
 def datingClassTest():
     hoRatio = 0.10
-    datingDataMat, datingLabels = file2matrix("/home/yujinghui/Workspaces/python/ml/knn/datingTestSet.txt")
+    datingDataMat, datingLabels = file2matrix("/home/yujinghui/Workspaces/python/ml/knn/dataTestSet.txt")
     normMat, ranges, minVals = autoNorm(datingDataMat)
     m = normMat.shape[0]
     numTestVecs = int(m * hoRatio)
@@ -82,7 +82,7 @@ def classifyPerson():
     percenTats = float(input("percentage of time spent playing video games?"))
     ffMiles = float(input("frequent filer miles earned per year?"))
     iceCream = float(input("liters of ice cream consumed per year"))
-    datingDatMat, datingLabels = file2matrix('/home/yujinghui/Workspaces/python/ml/knn/datingTestSet.txt')
+    datingDatMat, datingLabels = file2matrix('/home/yujinghui/Workspaces/python/ml/knn/dataTestSet.txt')
     normMat, ranges, minVals = autoNorm(datingDatMat)
     inArr = np.array([ffMiles, percenTats, iceCream])
     classifyResult = classify0((inArr - minVals)/ ranges, normMat, datingLabels, 3)
