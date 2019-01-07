@@ -35,7 +35,7 @@ def clipAlpha(aj, H, L):
 '''
   dataMatIn : data set.
   classLabels : label.
-  C: constants .
+  C: constants , slack variable to allow
   toler : tolerance.
   maxIter: max iteration counts before exit.
 '''
@@ -79,7 +79,7 @@ def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
                     print("eta >= 0")
                     continue
                 alphas[j] = alphas[j] - labelMat[j] * (Ei - Ej) / eta
-                alphas[j] = clipAlpha(alphas(j), H, L)
+                alphas[j] = clipAlpha(alphas[j], H, L)
                 if np.abs(alphas[j] - alphaJold) < 0.00001:
                     print("j not move enough")
                     continue
@@ -98,7 +98,7 @@ def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
                     b = (b1 + b2) / 2.0
 
                 alphaPairChanged = alphaPairChanged + 1
-                print("iter : %d i:%d, pairs changed" % (iter, i, alphaPairChanged))
+                print("iter : %d i:%d, pairs changed %d" % (iter, i, alphaPairChanged))
         if alphaPairChanged == 0:
             iter = iter + 1
         else:
@@ -107,3 +107,9 @@ def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
         print("iteration number is %d" % iter)
 
     return b, alphas
+
+if __name__ == "__main__":
+    dataArr, labelArr = loadDataSet("svmTestSet.txt")
+    b, alphas = smoSimple(dataArr, labelArr, 0.6, 0.001, 40)
+    print(alphas)
+    print(b)
