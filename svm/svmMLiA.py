@@ -110,6 +110,6 @@ def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
 
 if __name__ == "__main__":
     dataArr, labelArr = loadDataSet("svmTestSet.txt")
-    b, alphas = smoSimple(dataArr, labelArr, 0.6, 0.001, 40)
+    b, alphas = smoSimple(dataArr, labelArr, 0.06, 0.001, 40)
     print(alphas)
     print(b)
