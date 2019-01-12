@@ -16,5 +16,30 @@ class optStruct:
 def calcEk(oS, k):
     fXk = float(np.multiply(oS.alphas, oS.labelMat).T * (oS.X * oS.X[k, :].T)) + oS.b
 
+
 def selectJ(i, oS, Ei):
-    pass
+    maxK = -1
+    maxDeltaE = 0
+    Ej = 0
+    oS.eCache[i] = [1,Ei]
+    validEcacheList = np.nonzero(oS.eCache[:,0].A)[0]
+    if len(validEcacheList) > 1:
+        for k in validEcacheList:
+            if k == i:
+                continue
+            Ek = calcEk(oS,k)
+            deltaE = np.abs(Ei - Ek)
+            if deltaE > maxDeltaE:
+                maxK = k
+                maxDeltaE = deltaE
+                Ej = Ek
+        return maxK, Ej
+    else:
+        j = selectJ(i, oS.m)
+        Ej = calcEk(oS, j)
+
+
+def updateEk(oS, k):
+    Ek = calcEk(oS, k)
+    oS.eCache[k] = [1, Ek]
+
