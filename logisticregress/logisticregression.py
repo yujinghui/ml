@@ -1,3 +1,7 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+
 def loadDataSet():
     dataMat = []
     labelMat = []
@@ -9,30 +13,11 @@ def loadDataSet():
     return dataMat, labelMat
 
 
-import math
-import numpy as np
-
-
 def sigmoid(inx):
     return 1.0 / (1 + np.exp(-inx))
 
 
-def gradAscent(dataMatIn, classLabels):
-    dataMatrix = np.mat(dataMatIn)
-    labelMat = np.mat(classLabels).transpose()
-    m, n = np.shape(dataMatrix)
-    alpha = 0.001
-    # iterate for 500 times
-    maxCycles = 500
-    weights = np.ones((n, 1))
-    for k in range(maxCycles):
-        h = sigmoid(dataMatrix * weights)
-        error = (labelMat.astype("float64") - h)
-        weights = weights + alpha * dataMatrix.transpose() * error
-    return weights
 
-
-import matplotlib.pyplot as plt
 
 
 def plotBestFit(wei):
@@ -57,19 +42,33 @@ def plotBestFit(wei):
     ax.scatter(xcord1, ycord1, s=30, c='red', marker='s')
     ax.scatter(xcord2, ycord2, s=30, c='green')
     x = np.arange(-3.0, 3.0, 0.1)
-    y = (-weights[0] - weights[1] * x) / weights[2]
+    y = (weights[0] - weights[1] * x) / weights[2]
     ax.plot(x, y)
     plt.xlabel('X1')
     plt.ylabel('Y1')
     plt.show()
 
 
+def gradAscent(dataMatIn, classLabels):
+    dataMatrix = np.mat(dataMatIn)
+    labelMat = np.mat(classLabels).transpose()
+    m, n = np.shape(dataMatrix)
+    alpha = 0.001
+    # iterate for 500 times
+    maxCycles = 500
+    weights = np.ones((n, 1))
+    for k in range(maxCycles):
+        h = sigmoid(dataMatrix * weights)
+        error = (labelMat.astype("float64") - h)
+        weights = weights + alpha * dataMatrix.transpose() * error
+    return weights
+
 def stocGradAscent0(dataMatrix, classLabels):
     m, n = np.shape(dataMatrix)
-    alpha = 0.01
-    weights = np.ones(n)
+    alpha = 0.001
+    weights = np.ones((n, 1))
     for i in range(m):
-        h = sigmoid(sum(dataMatrix[i] * (weights.transpose())))
+        h = sigmoid(sum(dataMatrix[i] * weights))
         error = np.mat(classLabels[i]).astype("float64") - h
         weights = weights + alpha * error * dataMatrix[i]
     return weights.transpose()

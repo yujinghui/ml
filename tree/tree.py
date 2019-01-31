@@ -1,5 +1,5 @@
-from math import log
 import operator
+from math import log
 
 
 def createData():
