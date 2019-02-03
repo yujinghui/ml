@@ -17,26 +17,32 @@ def pca(data_mat, topNFeat=1):
     2. 找出主成分并映射到新的空间.
 
     问题：
-    1. np.cov结果是什么意思?
-    2.为什么通过找到最大特征值就可以确定？
+    1.为什么通过找到最大特征值就可以确定？
+    answer:
+    2. waht does statement meam(reconstructed_mat = (low_d_data_mat * red_eig_vects.T))
+    answer:
+
     :param data_mat:
     :param topNFeat:
     :return:
     """
     # 求出矩阵每一列的均值.
     mean_vals = np.mean(data_mat, axis=0)
-    cov_mat = np.cov(data_mat - mean_vals, rowvar=0)
+    data_centralised = data_mat - mean_vals
+    cov_mat = np.cov(data_centralised, rowvar=0)
     # 求出特征值和特征向量.
     eigVals, eig_vects = np.linalg.eig(np.mat(cov_mat))
-    # argsort将eigVals数组进行排序，返回数组下标.
+    # argsort将eig_vals数组进行排序，返回数组下标.
     eig_val_index = np.argsort(eigVals)
     # 找出最大的特征值的数组下标.
     eig_val_index = eig_val_index[: -(topNFeat + 1): -1]
-    # 转换到新的空间.
-    redEigVects = eig_vects[:, eig_val_index]
-    lowDDataMat = (data_mat - mean_vals) * redEigVects
-    reconMat = (lowDDataMat * redEigVects.T) + mean_vals
-    return lowDDataMat, reconMat
+    # 最大的特征值对应的特征向量
+    red_eig_vects = eig_vects[:, eig_val_index]
+    #
+    low_d_data_mat = data_centralised * red_eig_vects
+    reconstructed_mat = (low_d_data_mat * red_eig_vects.T)
+    reconstructed_mat1 = reconstructed_mat + mean_vals
+    return low_d_data_mat, reconstructed_mat1
 
 
 if __name__ == '__main__':
