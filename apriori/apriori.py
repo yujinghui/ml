@@ -19,6 +19,13 @@ def createC1(dataSet):
 
 
 def scanD(D, Ck, minSupport):
+    """
+    这里是求出单个元素的支持度.
+    :param D:
+    :param Ck:
+    :param minSupport:
+    :return:
+    """
     ssCnt = {}
     for tid in D:
         for can in Ck:
@@ -69,7 +76,7 @@ def apriori(dataset, min_support=0.5):
 def rulesfromconseq(freqset, h1, support_data, bigrulelist, min_conf):
     m = len(h1[0])
     if len(freqset) > m + 1:
-        hmp1 = apriori_gen(h, m + 1)
+        hmp1 = apriori_gen(h1, m + 1)
         hmp1 = calcconf(freqset, hmp1, support_data, bigrulelist, min_conf)
         if len(hmp1) > 1:
             rulesfromconseq(freqset, hmp1, support_data, bigrulelist, min_conf)
@@ -99,5 +106,6 @@ def generate_rules(li, support_data, min_conf=0.7):
 
 if __name__ == "__main__":
     dataset = localDataSet()
-    datalist = createC1(dataset)
-    print(datalist)
+    datasets = list(map(set, dataset))
+    items = createC1(dataset)
+    print(scanD(items, datasets, 0.5))

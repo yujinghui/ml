@@ -18,9 +18,7 @@ def pca(data_mat, topNFeat=1):
 
     问题：
     1.为什么通过找到最大特征值就可以确定？
-    answer:
-    2. waht does statement meam(reconstructed_mat = (low_d_data_mat * red_eig_vects.T))
-    answer:
+    答: min ||xi - xi|| **2 的最优化解是最大的特征值
 
     :param data_mat:
     :param topNFeat:
